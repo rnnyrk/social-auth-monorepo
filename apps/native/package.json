@@ -1,0 +1,29 @@
+{
+  "name": "native",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "dev": "pnpm start"
+  },
+  "dependencies": {
+    "expo": "^49.0.3",
+    "expo-status-bar": "~1.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native": "0.72.3",
+    "react-native-web": "^0.19.7",
+    "ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.0",
+    "@types/react": "^18.0.22",
+    "@types/react-native": "^0.72.2",
+    "typescript": "5.1.6"
+  },
+  "private": true
+}
