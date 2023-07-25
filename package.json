@@ -7,8 +7,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "turbo": "latest"
+    "@ianvs/prettier-plugin-sort-imports": "4.0.2",
+    "prettier": "2.8.8",
+    "turbo": "latest",
+    "typescript": "5.1.6"
   },
   "packageManager": "pnpm@8.6.10"
 }
