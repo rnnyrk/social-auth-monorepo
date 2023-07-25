@@ -24,7 +24,7 @@ export type SupabaseReducerUserAction = {
 export type SupabaseReducerIdAction = {
   type: 'set_bundle_id';
   payload: {
-    bundleId: string;
+    applicationId: string;
     loggedInRoute: string;
     loggedOutRoute: string;
   };
@@ -41,7 +41,7 @@ export type SupabaseReducerState = {
   loading: boolean;
   user: SupabaseUserType;
   redirect: {
-    bundleId: string | undefined;
+    applicationId: string | undefined;
     loggedInRoute: string | undefined;
     loggedOutRoute: string | undefined;
   };
@@ -58,8 +58,19 @@ export type SupabaseUserType =
   | null
   | undefined;
 
+export type SupabaseGetUser = {
+  supabaseClient: SupabaseClient;
+  email: string;
+};
+
+export type SupabaseCreateUser = {
+  supabaseClient: SupabaseClient;
+  email: string;
+  name: string;
+};
+
 // Context
-export type SupabaseContextProps = Omit<SupabaseReducerState, 'redirect'> & {
+export type SupabaseSocialAuthContextProps = Omit<SupabaseReducerState, 'redirect'> & {
   signOut: () => Promise<void>;
   onSignInWithApple: () => Promise<void>;
   onSignInWithGoogle: () => Promise<void>;
@@ -74,15 +85,17 @@ export type AuthToken = {
   provider_token: string | null;
 };
 
-export type SupabaseProviderProps = {
+export type SupabaseSocialAuthProviderProps = {
   children: React.ReactNode;
   onLoginError?: (error: unknown) => void;
   onLoginSuccess?: (payload: AuthToken) => void;
-  bundleId: string;
+  applicationId: string;
   loggedInRoute: string;
   loggedOutRoute?: string;
   supabaseClient: SupabaseClient;
 };
 
-export function useSupabase(): SupabaseContextProps;
-export function SupabaseProvider(props: SupabaseProviderProps): React.JSX.Element;
+export function useSupabaseSocialAuth(): SupabaseContextProps;
+export function SupabaseSocialAuthProvider(
+  props: SupabaseSocialAuthProviderProps,
+): React.JSX.Element;

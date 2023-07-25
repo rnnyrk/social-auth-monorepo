@@ -4,12 +4,12 @@ import * as WebBrowser from 'expo-web-browser';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 import {
-  type SupabaseContextProps,
-  type SupabaseProviderProps,
-  type SupabaseReducerActions,
   type SupabaseReducerState,
+  type SupabaseSocialAuthContextProps,
+  type SupabaseSocialAuthProviderProps,
   type SupabaseUserType,
 } from './index.d';
+import { createUser, extractParamsFromUrl, getUserByEmail, supabaseReducer } from './utils';
 
 declare module 'jwt-decode' {
   export interface JwtPayload {
@@ -18,7 +18,7 @@ declare module 'jwt-decode' {
   }
 }
 
-const SupabaseContext = React.createContext<SupabaseContextProps>({
+const SupabaseSocialAuthContext = React.createContext<SupabaseSocialAuthContextProps>({
   loading: false,
   loggedIn: false,
   user: null,
@@ -28,21 +28,8 @@ const SupabaseContext = React.createContext<SupabaseContextProps>({
   setOAuthSession: async () => {},
 });
 
-export function useSupabase() {
+export function useSupabaseSocialAuth() {
   return React.useContext(SupabaseContext);
-}
-
-function extractParamsFromUrl(url: string) {
-  const params = new URLSearchParams(url.split('#')[1]);
-  const data = {
-    access_token: params.get('access_token'),
-    expires_in: parseInt(params.get('expires_in') || '0'),
-    refresh_token: params.get('refresh_token'),
-    token_type: params.get('token_type'),
-    provider_token: params.get('provider_token'),
-  };
-
-  return data;
 }
 
 function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerState['redirect']) {
@@ -64,69 +51,45 @@ function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerSta
   }, [user, segments]);
 }
 
-function supabaseReducer(state: SupabaseReducerState, action: SupabaseReducerActions) {
-  if (action.type === 'set_login') {
-    return {
-      ...state,
-      loggedIn: action.payload,
-    };
-  } else if (action.type === 'set_loading') {
-    return {
-      ...state,
-      loading: action.payload,
-    };
-  } else if (action.type === 'set_user') {
-    return {
-      ...state,
-      user: action.payload,
-    };
-  } else if (action.type === 'set_bundle_id') {
-    return {
-      ...state,
-      redirect: action.payload,
-    };
-  }
-
-  throw Error('Unknown supabaseReducer action');
-}
-
-export function SupabaseProvider({
+export function SupabaseSocialAuthProvider({
   children,
   onLoginError,
   onLoginSuccess,
-  bundleId,
+  applicationId,
   loggedInRoute,
   loggedOutRoute,
   supabaseClient,
-}: SupabaseProviderProps) {
+}: SupabaseSocialAuthProviderProps) {
   const [state, dispatch] = React.useReducer(supabaseReducer, {
     loading: false,
     loggedIn: false,
     user: undefined,
     redirect: {
-      bundleId: undefined,
+      applicationId: undefined,
       loggedInRoute: undefined,
       loggedOutRoute: '/',
     },
   });
 
   React.useEffect(() => {
-    const bundleIdRegex = new RegExp('^(^[a-z0-9]+(.[a-z0-9]+)+(:+/+/+)?).*$');
-    if (bundleIdRegex.test(bundleId)) {
-      throw Error('Invalid redirectUrl, provide like: test.app OR test.app:// OR test.app://page');
+    const applicationIdRegex = new RegExp('^(^[a-z0-9]+(.[a-z0-9]+)+(:+/+/+)?).*$');
+    if (!applicationIdRegex.test(applicationId)) {
+      throw Error('Invalid applicationId, provide like: test.app OR test.app://');
     } else {
-      const cleanBundleId = bundleId.includes('://') ? bundleId.split('://')[0] : bundleId;
+      const cleanApplicationId = applicationId.includes('://')
+        ? applicationId.split('://')[0]
+        : applicationId;
 
       dispatch({
         type: 'set_bundle_id',
         payload: {
-          bundleId: cleanBundleId,
+          applicationId: cleanApplicationId,
           loggedInRoute,
           loggedOutRoute: loggedOutRoute || '/',
         },
       });
     }
-  }, [bundleId, loggedInRoute, loggedOutRoute]);
+  }, [applicationId, loggedInRoute, loggedOutRoute]);
 
   React.useEffect(() => {
     WebBrowser.warmUpAsync();
@@ -142,7 +105,7 @@ export function SupabaseProvider({
     const name = decodedToken.name;
 
     // Fetch the user from Supabase, if not existing, create a new user
-    const data = await getUserByEmail(email);
+    const data = await getUserByEmail({ email, supabaseClient });
 
     if (data) {
       dispatch({
@@ -150,18 +113,17 @@ export function SupabaseProvider({
         payload: data,
       });
     } else if (!data) {
-      const { data: newUser, error: newUserError } = await createUser({
+      const newUser = await createUser({
+        supabaseClient,
         email,
         name,
       });
 
-      if (newUser && !newUserError) {
+      if (newUser) {
         dispatch({
           type: 'set_user',
           payload: newUser,
         });
-      } else if (newUserError) {
-        console.error('Error creating new user', { newUserError });
       }
     }
   }
@@ -192,11 +154,13 @@ export function SupabaseProvider({
       payload: true,
     });
 
+    const redirectTo = `${state.redirect.applicationId}:/${state.redirect.loggedInRoute || '/'}`;
+
     try {
       const oAuthResult = await supabaseClient.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `${redirectUrl}`,
+          redirectTo,
           scopes: 'full_name email',
         },
       });
@@ -204,7 +168,7 @@ export function SupabaseProvider({
       const url = oAuthResult.data.url;
       if (!url) return;
 
-      const result = await WebBrowser.openAuthSessionAsync(url, `${redirectUrl}`, {
+      const result = await WebBrowser.openAuthSessionAsync(url, redirectTo, {
         showInRecents: true,
       });
 
@@ -237,18 +201,20 @@ export function SupabaseProvider({
       payload: true,
     });
 
+    const redirectTo = `${state.redirect.applicationId}:/${state.redirect.loggedInRoute || '/'}`;
+
     try {
       const oAuthResult = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${redirectUrl}`,
+          redirectTo,
         },
       });
 
       const url = oAuthResult.data.url;
       if (!url) return;
 
-      const result = await WebBrowser.openAuthSessionAsync(url, `${redirectUrl}`, {
+      const result = await WebBrowser.openAuthSessionAsync(url, redirectTo, {
         showInRecents: true,
       });
 
@@ -313,7 +279,7 @@ export function SupabaseProvider({
   useProtectedRoute(state.user, state.redirect);
 
   return (
-    <SupabaseContext.Provider
+    <SupabaseSocialAuthContext.Provider
       value={{
         loading: state.loading,
         loggedIn: state.loggedIn,
@@ -325,6 +291,6 @@ export function SupabaseProvider({
       }}
     >
       {children}
-    </SupabaseContext.Provider>
+    </SupabaseSocialAuthContext.Provider>
   );
 }

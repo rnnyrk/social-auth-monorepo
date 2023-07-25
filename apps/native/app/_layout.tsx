@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { SupabaseProvider } from 'expobase-social-auth';
+import { SupabaseSocialAuthProvider } from 'expobase-social-auth';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components';
 
@@ -11,10 +11,10 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
-        <SupabaseProvider
+        <SupabaseSocialAuthProvider
           onLoginError={() => {}}
           onLoginSuccess={() => {}}
-          bundleId="test.expobase"
+          applicationId="test.expobase"
           loggedInRoute="/"
           loggedOutRoute="/home/"
           supabaseClient={supabase}
@@ -24,7 +24,7 @@ export default function RootLayout() {
             initialRouteName="index"
             screenOptions={{ header: () => null }}
           />
-        </SupabaseProvider>
+        </SupabaseSocialAuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

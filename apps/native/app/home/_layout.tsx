@@ -2,11 +2,11 @@ import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { DrawerItem } from '@react-navigation/drawer';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
+import { useSupabaseSocialAuth } from 'expobase-social-auth';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import theme from '@styles/theme';
-import { useSupabase } from '@utils/SupabaseContext';
 import { LogoHeader } from '@common/layout';
 
 const DrawerLabelStyle = {
@@ -16,7 +16,7 @@ const DrawerLabelStyle = {
 
 function CustomDrawerContent({ drawerPosition, navigation }: any) {
   const insets = useSafeAreaInsets();
-  const { signOut } = useSupabase();
+  const { signOut } = useSupabaseSocialAuth();
 
   return (
     <ScrollView

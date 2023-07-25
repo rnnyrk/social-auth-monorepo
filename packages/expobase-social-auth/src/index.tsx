@@ -1,1 +1,1 @@
-export { SupabaseProvider, useSupabase } from './Context';
+export { SupabaseSocialAuthProvider, useSupabaseSocialAuth } from './Context';
