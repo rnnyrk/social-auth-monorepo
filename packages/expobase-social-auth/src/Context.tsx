@@ -4,13 +4,19 @@ import * as WebBrowser from 'expo-web-browser';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 import {
-  type AuthToken,
   type SupabaseContextProps,
   type SupabaseProviderProps,
   type SupabaseReducerActions,
   type SupabaseReducerState,
   type SupabaseUserType,
-} from './types';
+} from './index.d';
+
+declare module 'jwt-decode' {
+  export interface JwtPayload {
+    email: string;
+    name: string;
+  }
+}
 
 export const SupabaseContext = React.createContext<SupabaseContextProps>({
   loading: false,
@@ -26,7 +32,7 @@ export function useSupabase() {
   return React.useContext(SupabaseContext);
 }
 
-function extractParamsFromUrl(url: string): AuthToken {
+function extractParamsFromUrl(url: string) {
   const params = new URLSearchParams(url.split('#')[1]);
   const data = {
     access_token: params.get('access_token'),
@@ -44,7 +50,7 @@ function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerSta
   const router = useRouter();
 
   React.useEffect(() => {
-    if (user === undefined || !redirects.loggedInRedirectUrl || !redirects.logoutRedirectUrl)
+    if (user === undefined || !redirects.loggedInRedirectUrl || !redirects.logoutRedirectRoute)
       return;
 
     const rootSegment = segments[0];
@@ -52,7 +58,7 @@ function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerSta
 
     // If the user is not signed in, and not on signin page
     if (!user) {
-      router.replace(redirects.logoutRedirectUrl);
+      router.replace(redirects.logoutRedirectRoute);
     } else if (user && isAppDir) {
       router.replace(redirects.loggedInRedirectUrl);
     }
@@ -85,14 +91,14 @@ function supabaseReducer(state: SupabaseReducerState, action: SupabaseReducerAct
   throw Error('Unknown supabaseReducer action');
 }
 
-export const SupabaseProvider = ({
+export function SupabaseProvider({
   children,
   onLoginError,
   onLoginSuccess,
   redirectUrl,
-  logoutRedirectUrl,
+  logoutRedirectRoute,
   supabaseClient,
-}: SupabaseProviderProps) => {
+}: SupabaseProviderProps) {
   const [state, dispatch] = React.useReducer(supabaseReducer, {
     loading: false,
     loggedIn: false,
@@ -100,7 +106,7 @@ export const SupabaseProvider = ({
     redirect: {
       bundleId: undefined,
       loggedInRedirectUrl: undefined,
-      logoutRedirectUrl: '/',
+      logoutRedirectRoute: '/',
     },
   });
 
@@ -118,7 +124,7 @@ export const SupabaseProvider = ({
         payload: {
           bundleId,
           loggedInRedirectUrl,
-          logoutRedirectUrl: logoutRedirectUrl || '/',
+          logoutRedirectRoute: logoutRedirectRoute || '/',
         },
       });
     }
@@ -168,7 +174,7 @@ export const SupabaseProvider = ({
       const { data, error } = await supabaseClient.auth.getSession();
 
       if (error) {
-        onLoginError(error);
+        onLoginError && onLoginError(error);
         throw error;
       }
 
@@ -214,11 +220,11 @@ export const SupabaseProvider = ({
           refresh_token: data.refresh_token,
         });
 
-        onLoginSuccess(data);
+        onLoginSuccess && onLoginSuccess(data);
       }
     } catch (error) {
       console.error(error);
-      onLoginError(error);
+      onLoginError && onLoginError(error);
     } finally {
       dispatch({
         type: 'set_loading',
@@ -258,11 +264,11 @@ export const SupabaseProvider = ({
           refresh_token: data.refresh_token,
         });
 
-        onLoginSuccess(data);
+        onLoginSuccess && onLoginSuccess(data);
       }
     } catch (error) {
       console.error(error);
-      onLoginError(error);
+      onLoginError && onLoginError(error);
     } finally {
       dispatch({
         type: 'set_loading',
@@ -278,7 +284,7 @@ export const SupabaseProvider = ({
     });
 
     if (error) {
-      onLoginError(error);
+      onLoginError && onLoginError(error);
       throw error;
     }
 
@@ -323,4 +329,4 @@ export const SupabaseProvider = ({
       {children}
     </SupabaseContext.Provider>
   );
-};
+}

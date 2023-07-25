@@ -1,5 +1,10 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
+// Add `export {}` here to shut off automatic exporting from index.d.ts. There
+// are quite a few utility types here that don't need to be shipped with the
+// exported module.
+export {};
+
 // Reducer
 export type SupabaseReducerLoadingAction = {
   type: 'set_loading';
@@ -21,7 +26,7 @@ export type SupabaseReducerIdAction = {
   payload: {
     bundleId: string;
     loggedInRedirectUrl: string;
-    logoutRedirectUrl: string;
+    logoutRedirectRoute: string;
   };
 };
 
@@ -38,7 +43,7 @@ export type SupabaseReducerState = {
   redirect: {
     bundleId: string | undefined;
     loggedInRedirectUrl: string | undefined;
-    logoutRedirectUrl: string | undefined;
+    logoutRedirectRoute: string | undefined;
   };
 };
 
@@ -71,17 +76,13 @@ export type AuthToken = {
 
 export type SupabaseProviderProps = {
   children: React.ReactNode;
-  onLoginError: (error: unknown) => void;
-  onLoginSuccess: (payload: AuthToken) => void;
+  onLoginError?: (error: unknown) => void;
+  onLoginSuccess?: (payload: AuthToken) => void;
   redirectUrl: string;
-  logoutRedirectUrl?: string;
+  logoutRedirectRoute?: string;
   supabaseClient: SupabaseClient;
 };
 
-// Overwrites
-declare module 'jwt-decode' {
-  export interface JwtPayload {
-    email: string;
-    name: string;
-  }
-}
+export function SupabaseContext(): React.Context<SupabaseContextProps>;
+export function SupabaseProvider(props: SupabaseProviderProps): React.JSX.Element;
+export function extractParamsFromUrl(url: string): AuthToken;

@@ -7,15 +7,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'native',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: path.resolve(__dirname, 'assets/icon.png'),
+  icon: path.resolve(__dirname, 'src/assets/icon.png'),
   userInterfaceStyle: 'light',
   splash: {
-    image: path.resolve(__dirname, 'assets/splash.png'),
+    image: path.resolve(__dirname, 'src/assets/splash.png'),
     resizeMode: 'contain',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   updates: {
-    fallbackToCacheTimeout: 0
+    fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ['**/*'],
   ios: {
@@ -25,8 +25,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: path.resolve(__dirname, 'assets/adaptive-icon.png'),
-      backgroundColor: '#FFFFFF'
-    }
+      foregroundImage: path.resolve(__dirname, 'src/assets/adaptive-icon.png'),
+      backgroundColor: '#FFFFFF',
+    },
   },
 });
