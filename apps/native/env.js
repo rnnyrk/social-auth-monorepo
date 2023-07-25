@@ -37,9 +37,9 @@ require('dotenv').config({
  * for example: if the APP_ENV is staging, the bundle id will be com.obytes.staging
  */
 
-const BUNDLE_ID = 'com.expobase'; // ios bundle id
-const PACKAGE = 'com.expobase'; // android package name
-const NAME = APP_KEY_SUFFIX === 'PROD' ? 'Expobase' : `Expobase ${APP_KEY_SUFFIX}`; // app name
+const BUNDLE_ID = 'app.supasocial'; // ios bundle id
+const PACKAGE = 'app.supasocial'; // android package name
+const NAME = APP_KEY_SUFFIX === 'PROD' ? 'SupaSocial' : `SupaSocial ${APP_KEY_SUFFIX}`; // app name
 const BUILD_VERSION = 1;
 
 /**

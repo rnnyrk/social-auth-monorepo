@@ -1,0 +1,68 @@
+{
+  "cli": {
+    "version": ">= 3.15.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "image": "default"
+      },
+      "env": {
+        "APP_ENV": "development"
+      }
+    },
+    "simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk",
+        "image": "default"
+      },
+      "env": {
+        "APP_ENV": "development"
+      }
+    },
+    "staging": {
+      "android": {
+        "buildType": "apk",
+        "image": "default"
+      },
+      "env": {
+        "APP_ENV": "staging",
+        "FLIPPER_DISABLE": "1"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "image": "default"
+      },
+      "env": {
+        "APP_ENV": "production",
+        "FLIPPER_DISABLE": "1"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {},
+      "ios": {
+        "appleId": "",
+        "appleTeamId": "",
+        "language": ""
+      }
+    },
+    "staging": {
+      "extends": "production"
+    },
+    "development": {
+      "extends": "production"
+    }
+  }
+}
