@@ -18,7 +18,7 @@ declare module 'jwt-decode' {
   }
 }
 
-export const SupabaseContext = React.createContext<SupabaseContextProps>({
+const SupabaseContext = React.createContext<SupabaseContextProps>({
   loading: false,
   loggedIn: false,
   user: null,
@@ -50,17 +50,16 @@ function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerSta
   const router = useRouter();
 
   React.useEffect(() => {
-    if (user === undefined || !redirects.loggedInRedirectUrl || !redirects.logoutRedirectRoute)
-      return;
+    if (user === undefined || !redirects.loggedInRoute || !redirects.loggedOutRoute) return;
 
     const rootSegment = segments[0];
     const isAppDir = rootSegment === undefined;
 
     // If the user is not signed in, and not on signin page
     if (!user) {
-      router.replace(redirects.logoutRedirectRoute);
+      router.replace(redirects.loggedOutRoute);
     } else if (user && isAppDir) {
-      router.replace(redirects.loggedInRedirectUrl);
+      router.replace(redirects.loggedInRoute);
     }
   }, [user, segments]);
 }
@@ -95,8 +94,9 @@ export function SupabaseProvider({
   children,
   onLoginError,
   onLoginSuccess,
-  redirectUrl,
-  logoutRedirectRoute,
+  bundleId,
+  loggedInRoute,
+  loggedOutRoute,
   supabaseClient,
 }: SupabaseProviderProps) {
   const [state, dispatch] = React.useReducer(supabaseReducer, {
@@ -105,30 +105,28 @@ export function SupabaseProvider({
     user: undefined,
     redirect: {
       bundleId: undefined,
-      loggedInRedirectUrl: undefined,
-      logoutRedirectRoute: '/',
+      loggedInRoute: undefined,
+      loggedOutRoute: '/',
     },
   });
 
   React.useEffect(() => {
-    const bundleIdRegex = new RegExp('^(^[a-z0-9]+(.[a-z0-9]+)+:+/+/+).*$');
-    if (bundleIdRegex.test(redirectUrl)) {
-      throw Error('Invalid redirectUrl, provide like: test.app:// OR test.app://page');
+    const bundleIdRegex = new RegExp('^(^[a-z0-9]+(.[a-z0-9]+)+(:+/+/+)?).*$');
+    if (bundleIdRegex.test(bundleId)) {
+      throw Error('Invalid redirectUrl, provide like: test.app OR test.app:// OR test.app://page');
     } else {
-      const splittedUrl = redirectUrl.split('://');
-      const bundleId = splittedUrl[0];
-      const loggedInRedirectUrl = splittedUrl?.[1] ? splittedUrl[1] : `${splittedUrl[0]}://`;
+      const cleanBundleId = bundleId.includes('://') ? bundleId.split('://')[0] : bundleId;
 
       dispatch({
         type: 'set_bundle_id',
         payload: {
-          bundleId,
-          loggedInRedirectUrl,
-          logoutRedirectRoute: logoutRedirectRoute || '/',
+          bundleId: cleanBundleId,
+          loggedInRoute,
+          loggedOutRoute: loggedOutRoute || '/',
         },
       });
     }
-  }, [redirectUrl]);
+  }, [bundleId, loggedInRoute, loggedOutRoute]);
 
   React.useEffect(() => {
     WebBrowser.warmUpAsync();

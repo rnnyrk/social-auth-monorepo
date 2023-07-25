@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@styles/theme';
+import { supabase } from '@utils/supabase';
 
 export default function RootLayout() {
   return (
@@ -13,8 +14,10 @@ export default function RootLayout() {
         <SupabaseProvider
           onLoginError={() => {}}
           onLoginSuccess={() => {}}
-          redirectUrl="com.supabase.expobase://"
-          logoutRedirectRoute="/home/"
+          bundleId="test.expobase"
+          loggedInRoute="/"
+          loggedOutRoute="/home/"
+          supabaseClient={supabase}
         >
           <StatusBar style="dark" />
           <Stack

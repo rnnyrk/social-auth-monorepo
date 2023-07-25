@@ -25,8 +25,8 @@ export type SupabaseReducerIdAction = {
   type: 'set_bundle_id';
   payload: {
     bundleId: string;
-    loggedInRedirectUrl: string;
-    logoutRedirectRoute: string;
+    loggedInRoute: string;
+    loggedOutRoute: string;
   };
 };
 
@@ -42,8 +42,8 @@ export type SupabaseReducerState = {
   user: SupabaseUserType;
   redirect: {
     bundleId: string | undefined;
-    loggedInRedirectUrl: string | undefined;
-    logoutRedirectRoute: string | undefined;
+    loggedInRoute: string | undefined;
+    loggedOutRoute: string | undefined;
   };
 };
 
@@ -78,11 +78,11 @@ export type SupabaseProviderProps = {
   children: React.ReactNode;
   onLoginError?: (error: unknown) => void;
   onLoginSuccess?: (payload: AuthToken) => void;
-  redirectUrl: string;
-  logoutRedirectRoute?: string;
+  bundleId: string;
+  loggedInRoute: string;
+  loggedOutRoute?: string;
   supabaseClient: SupabaseClient;
 };
 
-export function SupabaseContext(): React.Context<SupabaseContextProps>;
+export function useSupabase(): SupabaseContextProps;
 export function SupabaseProvider(props: SupabaseProviderProps): React.JSX.Element;
-export function extractParamsFromUrl(url: string): AuthToken;
