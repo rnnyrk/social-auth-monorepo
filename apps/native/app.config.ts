@@ -1,11 +1,15 @@
 import path from 'path';
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 
+import { ClientEnv, Env } from './env';
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'expo-native',
-  slug: 'native',
-  version: '1.0.0',
+  scheme: Env.BUNDLE_ID,
+  name: Env.NAME,
+  description: `${Env.NAME} Mobile App`,
+  slug: 'expo-supabase-social-auth-example',
+  version: Env.VERSION.toString(),
   orientation: 'portrait',
   icon: path.resolve(__dirname, 'src/assets/icon.png'),
   userInterfaceStyle: 'light',
@@ -20,13 +24,52 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: false,
-    bundleIdentifier: 'com.expo.native',
-    buildNumber: '1',
+    bundleIdentifier: Env.BUNDLE_ID,
+    buildNumber: Env.BUILD_VERSION.toString(),
+    config: {
+      usesNonExemptEncryption: false,
+    },
   },
   android: {
     adaptiveIcon: {
       foregroundImage: path.resolve(__dirname, 'src/assets/adaptive-icon.png'),
       backgroundColor: '#FFFFFF',
     },
+    package: Env.PACKAGE,
+    versionCode: Env.BUILD_VERSION,
+  },
+  plugins: [
+    'expo-router',
+    [
+      'app-icon-badge',
+      {
+        enabled: Env.APP_ENV === 'production' ? false : true,
+        badges: [
+          {
+            text: Env.APP_ENV,
+            type: 'banner',
+            color: 'white',
+          },
+          {
+            text: Env.VERSION.toString(),
+            type: 'ribbon',
+            color: 'white',
+          },
+        ],
+      },
+    ],
+  ],
+  experiments: {
+    tsconfigPaths: true,
+    typedRoutes: true,
+  },
+  extra: {
+    ...ClientEnv,
+    router: {
+      origin: false,
+    },
+    // eas: {
+    //   projectId: Env.EAS_PROJECT_ID,
+    // },
   },
 });
