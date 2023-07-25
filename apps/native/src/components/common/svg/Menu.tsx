@@ -1,16 +1,8 @@
+import { View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import theme from '@styles/theme';
-
-import { SvgWrapper } from './styled';
-
-export const Menu = ({
-  fill = theme.colors.primary,
-  width = 20,
-  height = 20,
-  $position = 'static',
-}: MenuProps) => (
-  <SvgWrapper $position={$position}>
+export const Menu = ({ fill = '#61C4E3', width = 20, height = 20, style }: MenuProps) => (
+  <View style={style}>
     <Svg
       width={width}
       height={height}
@@ -21,12 +13,12 @@ export const Menu = ({
         fill={fill}
       />
     </Svg>
-  </SvgWrapper>
+  </View>
 );
 
 type MenuProps = {
   fill?: string;
   width?: number;
   height?: number;
-  $position?: 'static' | 'absolute';
+  style?: any;
 };

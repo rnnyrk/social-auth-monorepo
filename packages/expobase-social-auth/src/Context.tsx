@@ -29,7 +29,7 @@ const SupabaseSocialAuthContext = React.createContext<SupabaseSocialAuthContextP
 });
 
 export function useSupabaseSocialAuth() {
-  return React.useContext(SupabaseContext);
+  return React.useContext(SupabaseSocialAuthContext);
 }
 
 function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerState['redirect']) {

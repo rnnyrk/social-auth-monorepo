@@ -1,19 +1,15 @@
 import { useNavigation } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import theme from '@styles/theme';
 import { Menu } from '@common/svg';
-import { Text } from '@common/typography';
-
-import { LogoHeaderContainer } from './styled';
 
 export const LogoHeader = ({ showDrawer = false }: LogoHeaderProps) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   return (
-    <LogoHeaderContainer paddingTop={insets.top + 8}>
+    <View style={styles(insets.top).container}>
       <View />
       <Text>Expo Router + Supabase Auth</Text>
       {showDrawer ? (
@@ -21,17 +17,30 @@ export const LogoHeader = ({ showDrawer = false }: LogoHeaderProps) => {
           hitSlop={10}
           onPress={() => (navigation as any)?.toggleDrawer()}
         >
-          {({ pressed }) => (
-            <Menu fill={pressed ? theme.colors.primaryLight : theme.colors.primary} />
-          )}
+          {({ pressed }) => <Menu fill={pressed ? '#61C4E3' : '#A6DEEF'} />}
         </Pressable>
       ) : (
         <View />
       )}
-    </LogoHeaderContainer>
+    </View>
   );
 };
 
 type LogoHeaderProps = {
   showDrawer?: boolean;
 };
+
+const styles = (paddingTop: number) =>
+  StyleSheet.create({
+    container: {
+      position: 'relative',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingTop,
+      paddingRight: 24,
+      paddingLeft: 24,
+      backgroundColor: 'white',
+    },
+  });

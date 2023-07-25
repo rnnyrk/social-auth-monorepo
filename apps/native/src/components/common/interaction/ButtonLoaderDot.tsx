@@ -1,8 +1,6 @@
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, StyleSheet } from 'react-native';
 
-import { DotContainer } from './styled';
-
-export const Dot: React.FC<DotProps> = ({ delay }) => {
+export const ButtonLoaderDot = ({ delay }: ButtonLoaderDotProps) => {
   const opacityValue = new Animated.Value(0);
 
   Animated.loop(
@@ -20,9 +18,19 @@ export const Dot: React.FC<DotProps> = ({ delay }) => {
     outputRange: [0.0, 1.0, 0.0],
   });
 
-  return <DotContainer style={{ opacity }} />;
+  return <Animated.View style={{ ...styles.dot, opacity }} />;
 };
 
-type DotProps = {
+type ButtonLoaderDotProps = {
   delay: number;
 };
+
+const styles = StyleSheet.create({
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 6,
+    marginRight: 3,
+    backgroundColor: '#FFFFFF',
+  },
+});

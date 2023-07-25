@@ -6,11 +6,10 @@ import { useSupabaseSocialAuth } from 'expobase-social-auth';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import theme from '@styles/theme';
 import { LogoHeader } from '@common/layout';
 
 const DrawerLabelStyle = {
-  color: theme.colors.gray800,
+  color: '#808080',
   fontSize: 24,
 };
 
@@ -58,7 +57,7 @@ export default function DrawerLayout() {
           header: () => <LogoHeader showDrawer />,
           drawerPosition: 'right',
           drawerLabelStyle: {
-            color: theme.colors.gray,
+            color: '#CCCCCC',
           },
         }}
         drawerContent={(props: DrawerContentComponentProps) => {

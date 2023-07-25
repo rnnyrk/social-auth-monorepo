@@ -1,12 +1,8 @@
+import { View } from 'react-native';
 import Svg, { G, Path } from 'react-native-svg';
 
-import { SvgWrapper } from './styled';
-
 export const Apple = ({ width, height, style }: AppleProps) => (
-  <SvgWrapper
-    style={style}
-    $position="static"
-  >
+  <View style={style}>
     <Svg
       width={width}
       height={height}
@@ -20,7 +16,7 @@ export const Apple = ({ width, height, style }: AppleProps) => (
         />
       </G>
     </Svg>
-  </SvgWrapper>
+  </View>
 );
 
 type AppleProps = {
