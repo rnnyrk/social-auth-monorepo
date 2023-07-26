@@ -1,4 +1,4 @@
-# expobase-social-auth
+# expo-supabase-social-auth
 
 Repository for supplying Social Authentication (currently Apple & Google) with Supabase and Expo Router V2. I've written a blog post that explains the process of setting up and configuring Google and Apple logins with Supabase. You can find it [on my website](https://rnny.nl/blog/expo-supabase-social-auth).
 

@@ -2,7 +2,7 @@ import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { DrawerItem } from '@react-navigation/drawer';
 import { Drawer } from 'expo-router/drawer';
 import { StatusBar } from 'expo-status-bar';
-import { useSupabaseSocialAuth } from 'expobase-social-auth';
+import { useSupabaseSocialAuth } from 'expo-supabase-social-auth';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

@@ -1,4 +1,4 @@
-# @rnnyrk/expobase-social-auth
+# @rnnyrk/expo-supabase-social-auth
 
 ## 1.0.0
 

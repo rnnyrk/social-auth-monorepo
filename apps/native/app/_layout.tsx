@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { SupabaseSocialAuthProvider } from 'expobase-social-auth';
+import { SupabaseSocialAuthProvider } from 'expo-supabase-social-auth';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { getApplicationId } from '@utils';

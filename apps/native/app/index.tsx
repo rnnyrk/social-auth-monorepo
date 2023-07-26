@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useSupabaseSocialAuth } from 'expobase-social-auth';
+import { useSupabaseSocialAuth } from 'expo-supabase-social-auth';
 import { StyleSheet, Text } from 'react-native';
 
 import { getApplicationId, isIphone } from '@utils';

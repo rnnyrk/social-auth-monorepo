@@ -59,12 +59,12 @@ importers:
       expo-status-bar:
         specifier: ~1.6.0
         version: 1.6.0
+      expo-supabase-social-auth:
+        specifier: workspace:*
+        version: link:../../packages/expo-supabase-social-auth
       expo-system-ui:
         specifier: 2.4.0
         version: 2.4.0(expo@49.0.3)
-      expobase-social-auth:
-        specifier: workspace:*
-        version: link:../../packages/expobase-social-auth
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -155,7 +155,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  packages/expobase-social-auth:
+  packages/expo-supabase-social-auth:
     dependencies:
       '@supabase/supabase-js':
         specifier: 2.26.0
