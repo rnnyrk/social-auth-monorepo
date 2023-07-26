@@ -18,6 +18,7 @@ export async function getUserByEmail({
 
   if (error) {
     console.error(error);
+    return null;
   }
 
   return data;
@@ -38,6 +39,7 @@ export async function createUser({
 
   if (error) {
     console.error(error);
+    return null;
   }
 
   return data as unknown as SupabaseUserType;

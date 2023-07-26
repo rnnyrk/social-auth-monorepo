@@ -3,7 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { SupabaseSocialAuthProvider } from 'expobase-social-auth';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { getApplicationId } from '@utils';
 import { supabase } from '@utils/supabase';
+
+const applicationId = getApplicationId();
 
 export default function RootLayout() {
   return (
@@ -11,9 +14,9 @@ export default function RootLayout() {
       <SupabaseSocialAuthProvider
         onLoginError={() => {}}
         onLoginSuccess={() => {}}
-        applicationId="test.expobase"
-        loggedInRoute="/"
-        loggedOutRoute="/home/"
+        applicationId={applicationId!}
+        loggedInRoute="/home/"
+        loggedOutRoute="/"
         supabaseClient={supabase}
       >
         <StatusBar style="dark" />

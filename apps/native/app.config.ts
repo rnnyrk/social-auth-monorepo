@@ -58,6 +58,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         ],
       },
     ],
+    [
+      'expo-build-properties',
+      {
+        ios: {
+          flipper: true,
+        },
+      },
+    ],
   ],
   experiments: {
     tsconfigPaths: true,

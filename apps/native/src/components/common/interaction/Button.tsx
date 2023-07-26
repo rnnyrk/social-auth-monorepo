@@ -37,7 +37,7 @@ export const Button = ({ children, icon, isLoading, isDisabled, onPress, style }
         return (
           <View
             {...styledButtonProps}
-            style={styles(pressed).wrapper}
+            style={styles(pressed, isDisabled).wrapper}
           >
             <ButtonContent {...buttonContentProps} />
           </View>
@@ -47,7 +47,7 @@ export const Button = ({ children, icon, isLoading, isDisabled, onPress, style }
   );
 };
 
-const styles = (pressed?: boolean) =>
+const styles = (pressed?: boolean, disabled?: boolean) =>
   StyleSheet.create({
     container: {
       width: 200,
@@ -61,7 +61,7 @@ const styles = (pressed?: boolean) =>
       borderRadius: 8,
       borderWidth: 2,
       borderColor: '#CCCCCC',
-      backgroundColor: pressed ? '#CCCCCC' : 'white',
+      backgroundColor: pressed || disabled ? '#CCCCCC' : 'white',
     },
     icon: {
       width: 16,
