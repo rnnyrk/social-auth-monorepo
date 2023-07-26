@@ -1,32 +1,47 @@
-# Turborepo react-native starter
+# Supabase Social Authentication with Expo Router
 
-This is an official starter Turborepo.
+[A blog post that explains the process of creating Google/Apple logins with Supabase, accompanies this repository](https://rnny.nl/blog/expo-supabase-social-auth).
 
-## Using this example
+With this repository, I wanted to give an example and guidance on how to use Supabase Social Authentication together with Expo Router v2. Both Google Authentication as well as Apple Authentication are covered.
 
-Run the following command:
+I've built this repository as a monorepo using [Turborepo](https://turbo.build/repo) and [PNpm](https://pnpm.io/).
+
+## How to use
 
 ```sh
-npx create-turbo@latest -e with-react-native-web
+git clone git@github.com:rnnyrk/social-auth-monorepo.git YOUR_PROJECT
+cd YOUR_PROJECT
+pnpm i
 ```
 
-## What's inside?
+For local development you should also run `pnpm build`, to build the local `/packages` folder. And run `pnmp dev` after to build the Expo app.
+If the bundling isn't working directly, first [prebuild](https://docs.expo.dev/workflow/prebuild/) your application:
 
-This Turborepo includes the following packages/apps:
+```sh
+cd apps/native
+pnpm prebuild
+```
 
-### Apps and Packages
+_The `pnpm dev` command is configured to bundle an iOS app. If you rather develop by default for Android, change the NPM `dev` script in `apps/native/package.json` to `pnpm android`._
 
-- `native`: a [react-native](https://reactnative.dev/) app built with [expo](https://docs.expo.dev/)
-- `web`: a [Next.js](https://nextjs.org/) app built with [react-native-web](https://necolas.github.io/react-native-web/)
-- `ui`: a stub [react-native](https://reactnative.dev/) component library shared by both `web` and `native` applications
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+Within the `apps/native` directory, you can find the Expo app. Over there, create an environment file on `.env.development` and fill in the required properties:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+```bash
+EXPO_PUBLIC_SUPABASE_URL_DEV=
+EXPO_PUBLIC_SUPABASE_PUBLIC_KEY_DEV=
+EAS_PROJECT_ID=
+```
 
-### Utilities
+Create a build for a simulator
 
-This Turborepo has some additional tools already setup for you:
+- iOS `eas build --profile simulator --platform ios`
+- Android `eas build --profile development --platform android`
 
-- [Expo](https://docs.expo.dev/) for native development
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Prettier](https://prettier.io) for code formatting
+OR Create a build for a device
+
+- iOS `eas device:create` && `eas build --profile development --platform ios`
+- Android `eas build --profile development --platform android`
+
+Submit the build:
+
+- iOS `APP_ENV=staging eas submit -p ios --profile staging`
