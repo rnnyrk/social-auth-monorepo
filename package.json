@@ -4,9 +4,13 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "clean": "turbo clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "changeset-create": "changeset",
+    "changeset-apply": "changeset version",
+    "release": "turbo run build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "2.26.2",
     "@ianvs/prettier-plugin-sort-imports": "4.0.2",
     "prettier": "2.8.8",
     "turbo": "latest",
