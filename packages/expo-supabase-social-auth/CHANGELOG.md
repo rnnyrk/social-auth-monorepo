@@ -1,5 +1,11 @@
 # @rnnyrk/expo-supabase-social-auth
 
+## 1.0.3
+
+### Patch Changes
+
+- 72130c8: Update README
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,45 +1,46 @@
 # expo-supabase-social-auth
 
-Repository for supplying Social Authentication (currently Apple & Google) with Supabase and Expo Router V2. I've written a blog post that explains the process of setting up and configuring Google and Apple logins with Supabase. You can find it [on my website](https://rnny.nl/blog/expo-supabase-social-auth).
+Package for supplying Social Authentication (currently Apple & Google) with Supabase and Expo Router V2. [I've written a blog post](https://rnny.nl/blog/expo-supabase-social-auth) that explains the process of setting up and configuring Google and Apple logins with Supabase.
 
-I've built this repository as a monorepo using [Turborepo](https://turbo.build/repo) and [PNpm](https://pnpm.io/). Within the `apps` directory, you find a native and a web example.
+## Dependencies
 
-## How to use
+This package requires the following dependencies:
 
-```sh
-git clone git@github.com:rnnyrk/social-auth-monorepo.git YOUR_PROJECT
-cd YOUR_PROJECT
-pnpm i
+- [SupabaseJS](https://supabase.com/docs/reference/javascript/installing)
+- [Expo Router V2](https://docs.expo.dev/routing/introduction/)
+- [Google/Apple authentication setup](https://rnny.nl/blog/expo-supabase-social-auth)
+
+## Usage
+
+```tsx
+// app/index.tsx
+import { useSupabaseSocialAuth } from 'expo-supabase-social-auth';
+
+export default function AuthScreen() {
+  const { loading, onSignInWithApple, onSignInWithGoogle } = useSupabaseSocialAuth();
+
+  return (
+    <SupabaseSocialAuthProvider
+      onLoginError={() => {}}
+      onLoginSuccess={() => {}}
+      applicationId={applicationId!}
+      loggedInRoute="/home/"
+      loggedOutRoute="/"
+      supabaseClient={supabase}
+    >
+      {children}
+    </SupabaseSocialAuthProvider>
+  );
+}
 ```
 
-For local development you should also run `pnpm build`, to build the local `/packages` folder. And run `pnmp dev` after to build the Expo app.
-If the bundling isn't working directly, first [prebuild](https://docs.expo.dev/workflow/prebuild/) your application:
+### Props
 
-```sh
-cd apps/native
-pnpm prebuild
-```
-
-_The `pnpm dev` command is configured to bundle an iOS app. If you rather develop by default for Android, change the NPM `dev` script in `apps/native/package.json` to `pnpm android`._
-
-Within the `apps/native` directory, you can find the Expo app. Over there, create an environment file on `.env.development` and fill in the required properties:
-
-```bash
-EXPO_PUBLIC_SUPABASE_URL_DEV=
-EXPO_PUBLIC_SUPABASE_PUBLIC_KEY_DEV=
-EAS_PROJECT_ID=
-```
-
-Create a build for a simulator
-
-- iOS `eas build --profile simulator --platform ios`
-- Android `eas build --profile development --platform android`
-
-OR Create a build for a device
-
-- iOS `eas device:create` && `eas build --profile development --platform ios`
-- Android `eas build --profile development --platform android`
-
-Submit the build:
-
-- iOS `APP_ENV=staging eas submit -p ios --profile staging`
+| Method           | Type                             | Description                                                                                |
+| ---------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
+| `applicationId`  | `string`                         | bundleId/packageName as e.g. `com.test`                                                    |
+| `loggedInRoute`  | `string`                         | Internal route (Expo app dir) to redirect to after successful login                        |
+| `loggedOutRoute` | `string`                         | Internal route (Expo app dir) to redirect to after logout                                  |
+| `onLoginError`   | `(error: unknown) => void`       | Callback function after login error                                                        |
+| `onLoginSuccess` | `(payload: AuthTokens) => void)` | Callback function after login success                                                      |
+| `supabaseClient` | `SupabaseClient`                 | [Supabase initialized client](https://supabase.com/docs/reference/javascript/initializing) |

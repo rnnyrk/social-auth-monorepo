@@ -1,10 +1,6 @@
-# Supabase Social Authentication with Expo Router
+# Turborepo: Supabase Social Authentication with Expo Router
 
-[A blog post that explains the process of creating Google/Apple logins with Supabase, accompanies this repository](https://rnny.nl/blog/expo-supabase-social-auth).
-
-With this repository, I wanted to give an example and guidance on how to use Supabase Social Authentication together with Expo Router v2. Both Google Authentication as well as Apple Authentication are covered.
-
-I've built this repository as a monorepo using [Turborepo](https://turbo.build/repo) and [PNpm](https://pnpm.io/).
+[A blog post that explains the process of creating Google/Apple logins with Supabase, accompanies this repository](https://rnny.nl/blog/expo-supabase-social-auth). With this repository, I wanted to give an example and guidance on how to use Supabase Social Authentication together with Expo Router v2. Both Google Authentication as well as Apple Authentication are covered. This repository is built as a monorepo using [Turborepo](https://turbo.build/repo) and [PNpm](https://pnpm.io/).
 
 ## How to use
 
