@@ -1,5 +1,12 @@
 # native
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - expo-supabase-social-auth@1.0.4
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @rnnyrk/expo-supabase-social-auth
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated README with example repo
+
 ## 1.0.3
 
 ### Patch Changes
@@ -10,7 +16,7 @@
 
 ### Patch Changes
 
-- 5e06228: Add changeset, first release to npm
+- 5e06228: Add changeset, create the first release to npm
 
 ## 1.0.0
 

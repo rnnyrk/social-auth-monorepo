@@ -2,6 +2,8 @@
 
 Package for supplying Social Authentication (currently Apple & Google) with Supabase and Expo Router V2. [I've written a blog post](https://rnny.nl/blog/expo-supabase-social-auth) that explains the process of setting up and configuring Google and Apple logins with Supabase.
 
+[Also created an example repository to quickly get started](https://github.com/rnnyrk/expo-router-supabase-social-auth).
+
 ## Dependencies
 
 This package requires the following dependencies:
