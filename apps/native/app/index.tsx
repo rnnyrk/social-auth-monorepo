@@ -55,8 +55,8 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
   applicationIdText: {
-    marginTop: 32,
-    fontSize: 16,
     color: '#CCCCCC',
+    fontSize: 16,
+    marginTop: 32,
   },
 });

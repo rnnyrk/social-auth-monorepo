@@ -12,8 +12,8 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'center',
-    fontSize: 48,
     color: '#808080',
+    fontSize: 48,
+    textAlign: 'center',
   },
 });

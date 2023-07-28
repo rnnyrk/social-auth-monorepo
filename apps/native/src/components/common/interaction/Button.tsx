@@ -47,29 +47,32 @@ export const Button = ({ children, icon, isLoading, isDisabled, onPress, style }
   );
 };
 
-const styles = (pressed?: boolean, disabled?: boolean) =>
-  StyleSheet.create({
+const styles = (pressed?: boolean, disabled?: boolean) => {
+  const customStyles = StyleSheet.create({
     container: {
-      width: 200,
       height: 48,
-    },
-    wrapper: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
-      borderRadius: 8,
-      borderWidth: 2,
-      borderColor: '#CCCCCC',
-      backgroundColor: pressed || disabled ? '#CCCCCC' : 'white',
+      width: 200,
     },
     icon: {
-      width: 16,
+      alignItems: 'center',
       height: 16,
       marginRight: 16,
-      alignItems: 'center',
+      width: 16,
     },
     label: {
       fontSize: 16,
     },
+    wrapper: {
+      alignItems: 'center',
+      backgroundColor: pressed || disabled ? '#CCCCCC' : 'white',
+      borderColor: '#CCCCCC',
+      borderRadius: 8,
+      borderWidth: 2,
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
   });
+
+  return customStyles;
+};

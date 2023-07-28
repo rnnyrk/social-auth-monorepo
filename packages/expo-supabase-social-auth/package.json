@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint . --ext .js,.jsx.ts,.tsx"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.26.0",
@@ -23,6 +24,9 @@
   "devDependencies": {
     "@types/react": "^18.1.0",
     "@types/react-native": "^0.72.2",
+    "eslint": "8.19.0",
+    "eslint-config-rnnyrk": "workspace:*",
+    "eslint-plugin-react-native": "4.0.0",
     "tsconfig": "workspace:*",
     "tsup": "^7.1.0",
     "typescript": "5.1.6"

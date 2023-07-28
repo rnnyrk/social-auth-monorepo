@@ -7,11 +7,14 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
     "changeset-create": "changeset",
     "changeset-apply": "changeset version",
-    "release": "turbo run build && changeset publish"
+    "release": "turbo run build && changeset publish",
+    "lint": "turbo lint"
   },
   "devDependencies": {
     "@changesets/cli": "2.26.2",
     "@ianvs/prettier-plugin-sort-imports": "4.0.2",
+    "eslint": "8.15.0",
+    "eslint-config-rnnyrk": "workspace:^",
     "prettier": "2.8.8",
     "turbo": "latest",
     "typescript": "5.1.6"

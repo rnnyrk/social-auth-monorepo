@@ -48,7 +48,7 @@ function useProtectedRoute(user: SupabaseUserType, redirects: SupabaseReducerSta
     } else if (user && isAppDir) {
       router.replace(redirects.loggedInRoute);
     }
-  }, [user, segments]);
+  }, [user, segments, redirects.loggedInRoute, redirects.loggedOutRoute]);
 }
 
 export function SupabaseSocialAuthProvider({
@@ -146,7 +146,7 @@ export function SupabaseSocialAuthProvider({
         });
       }
     })();
-  }, []);
+  }, [onLoginError]);
 
   async function onSignInWithApple() {
     dispatch({

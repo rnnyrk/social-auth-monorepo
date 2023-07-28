@@ -33,14 +33,14 @@ type LogoHeaderProps = {
 const styles = (paddingTop: number) =>
   StyleSheet.create({
     container: {
+      alignItems: 'center',
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingLeft: 24,
+      paddingRight: 24,
+      paddingTop,
       position: 'relative',
       width: '100%',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingTop,
-      paddingRight: 24,
-      paddingLeft: 24,
-      backgroundColor: 'white',
     },
   });

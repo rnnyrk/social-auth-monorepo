@@ -15,7 +15,7 @@
 const z = require('zod');
 const packageJSON = require('./package.json');
 const path = require('path');
-const APP_ENV = process.env.APP_ENV ?? 'development';
+const APP_ENV = process.env['APP_ENV'] ?? 'development';
 const envPath = path.resolve(__dirname, `.env.${APP_ENV}`);
 
 let APP_KEY_SUFFIX = 'DEV';

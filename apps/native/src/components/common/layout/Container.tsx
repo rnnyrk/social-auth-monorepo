@@ -6,12 +6,12 @@ export function Container({ children }: { children: React.ReactNode }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingRight: 16,
-    paddingLeft: 16,
     backgroundColor: 'white',
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
+    width: '100%',
   },
 });

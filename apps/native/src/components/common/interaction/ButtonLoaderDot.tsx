@@ -27,10 +27,10 @@ type ButtonLoaderDotProps = {
 
 const styles = StyleSheet.create({
   dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 6,
-    marginRight: 3,
     backgroundColor: '#FFFFFF',
+    borderRadius: 6,
+    height: 6,
+    marginRight: 3,
+    width: 6,
   },
 });

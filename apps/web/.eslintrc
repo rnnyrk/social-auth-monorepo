@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": ["rnnyrk", "plugin:@next/next/recommended"],
+  "globals": {
+    "__DEV__": false,
+    "__TEST__": false,
+    "__ACC__": false,
+    "__PROD__": false
+  },
+  "ignorePatterns": ["**/.next/**/*.js"]
+}

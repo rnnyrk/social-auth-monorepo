@@ -1,5 +1,5 @@
 {
-  "name": "native",
+  "name": "native-expo",
   "version": "1.0.2",
   "main": "index.js",
   "scripts": {
@@ -7,7 +7,8 @@
     "prebuild": "expo prebuild --clean",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "dev": "pnpm ios"
+    "dev": "pnpm ios",
+    "lint": "eslint . --ext .js,.jsx.ts,.tsx"
   },
   "dependencies": {
     "@react-navigation/drawer": "6.6.3",
@@ -39,6 +40,9 @@
     "@rnx-kit/metro-resolver-symlinks": "0.1.30",
     "@types/react": "^18.2.15",
     "@types/react-native": "^0.72.2",
+    "eslint": "8.19.0",
+    "eslint-config-rnnyrk": "workspace:*",
+    "eslint-plugin-react-native": "4.0.0",
     "typescript": "5.1.6",
     "zod": "3.21.4"
   },

@@ -14,9 +14,9 @@ export const ButtonLoader: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 70,
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
+    width: 70,
   },
 });
