@@ -1,6 +1,7 @@
 {
   "name": "eslint-config-rnnyrk",
   "main": "index.js",
+  "private": true,
   "version": "1.0.0",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "6.2.0",
